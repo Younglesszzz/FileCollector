@@ -1,0 +1,53 @@
+spring:
+  # 数据库配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 改成你本地的数据库名
+    url: jdbc:mysql://localhost:3306/File_Collector?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    # 改成你本地的数据库账号密码
+    username: root
+    password: young
+  # jpa配置
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: true
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect  #不加这句则默认为myisam引擎
+  mvc:
+    # 处理前端访问的API路径不存在 令它抛出异常
+    throw-exception-if-no-handler-found: true
+  # 静态资源管理
+  # 配置文件上传
+  servlet:
+    multipart:
+      # 文件上传是否开启
+      enabled: true
+      # 单个数据的大小
+      max-file-size: 50MB
+      # 总数据的大小
+      max-request-size: 100MB
+  # json处理
+#  jackson:
+#    serialization:
+#      FAIL_ON_EMPTY_BEANS: false
+#  web:
+#    resources:
+#      static-locations: classpath:/static/, file:${web.upload_path}
+#      add-mappings: false
+
+# 改成你本地的文件上传路径
+file.upload_path: F://uploadTest//
+file.download_path: F://uploadTest//
+
+# 项目运行端口
+server:
+  port: 8080
+
+# 日志
+logging:
+  level:
+    root: info
+    com.lrm: debug
+  file:
+    name: log/blog.log
