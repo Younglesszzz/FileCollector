@@ -3,8 +3,10 @@ package com.example.filecollector.po;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "t_user")
 public class User {
 
     @Id

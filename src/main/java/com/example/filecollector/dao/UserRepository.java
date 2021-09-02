@@ -1,8 +1,8 @@
 package com.example.filecollector.dao;
 
-import com.example.registerandlogindemo.po.User;
-import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.filecollector.po.User;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

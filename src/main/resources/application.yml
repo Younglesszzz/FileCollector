@@ -6,7 +6,7 @@ spring:
     url: jdbc:mysql://localhost:3306/File_Collector?useSSL=false&useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     # 改成你本地的数据库账号密码
     username: root
-    password: 1234
+    password: young
   # jpa配置
   jpa:
     hibernate:
@@ -27,6 +27,8 @@ spring:
       max-file-size: 50MB
       # 总数据的大小
       max-request-size: 100MB
+  thymeleaf:
+    prefix: classpath:/static/
   # json处理
 #  jackson:
 #    serialization:
@@ -37,8 +39,8 @@ spring:
 #      add-mappings: false
 
 # 改成你本地的文件上传路径
-file.upload_path: C:\Users\16242\Desktop\5大三（上）\JavaEE小学期\upload
-file.download_path: C:\Users\16242\Desktop\5大三（上）\JavaEE小学期\download
+file.upload_path: F://uploadTest
+file.download_path: F://uploadTest//
 
 # 项目运行端口
 server:
@@ -51,3 +53,4 @@ logging:
     com.lrm: debug
   file:
     name: log/blog.log
+

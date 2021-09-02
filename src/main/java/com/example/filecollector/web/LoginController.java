@@ -1,18 +1,16 @@
 package com.example.filecollector.web;
 
-import com.example.registerandlogindemo.po.User;
-import com.example.registerandlogindemo.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import com.example.filecollector.po.User;
+import com.example.filecollector.service.UserService;
+import com.example.filecollector.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 
-@Slf4j
-@Controller
-@RequestMapping("/login")
+@RestController
 public class LoginController {
 
     //将Service注入Web层
@@ -20,27 +18,20 @@ public class LoginController {
     private UserService userService;
 
 
-    @PostMapping("/loginIn")
-    public String loginIn(String name,String password){
+    @PostMapping("/login")
+    public Result login(String name, String password){
         User user = userService.LoginIn(name, password);
-        log.info("name:{}",name);
-        log.info("password:{}",password);
         if(user !=null){
-            return "success";
+            return new Result(null, "success");
         }else {
-            return "error";
+            return new Result(null, "error");
         }
     }
-
-    @RequestMapping("/signup")
-    public String disp(){
-        return "signup";
-    }
-
-    //实现注册功能
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public String signUp(String name,String password){
-        userService.Insert(name, password);
-        return "success";
-    }
+//
+//    //实现注册功能
+//    @PostMapping("/register")
+//    public Result signUp(String name, String password){
+//        userService.Insert(name, password);
+//        return new Result(null, "success");
+//    }
 }
