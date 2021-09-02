@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FileTagRepository extends JpaRepository<FileTag, Long> {
     /**
-     * 标签名查招
+     * 标签名查找
      * @param name
      * @return
      */

@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 
 @Controller
+@RequestMapping("/files")
 public class FileController {
     private final static Logger logger = LoggerFactory.getLogger(FileController.class);
 
@@ -28,9 +30,6 @@ public class FileController {
 
     @Value("${file.download-path}")
     private String downloadFilePath;
-
-    @Autowired
-    private FileRepository fileRepository;
 
     @Autowired
     private FileService fileService;
