@@ -2,12 +2,13 @@ package com.example.filecollector.web;
 
 import com.example.filecollector.po.User;
 import com.example.filecollector.service.UserService;
+import com.example.filecollector.util.TokenInfo;
 import com.example.filecollector.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 
 @RestController
@@ -19,13 +20,18 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public Result login(String name, String password){
-        User user = userService.LoginIn(name, password);
-        if(user !=null){
-            return new Result(null, "success");
-        }else {
-            return new Result(null, "error");
+    public Result login(String userName, String password){
+        try {
+            userService.saveUser(userName, password);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return new Result(null, "密码错误");
         }
+
+        String token = TokenInfo.postToken(userName);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("token", token);
+        return new Result(hashMap, "登陆成功");
     }
 //
 //    //实现注册功能
