@@ -18,16 +18,18 @@ public class UserService {
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public User saveUser(String name, String password) throws Exception{
-        User user = userRepository.findByNameAndPassword(name, password);
-        if (user == null) {
-            user = new User(name, password);
-            userRepository.save(user);
-        } else {
-            if (password != user.getPassword()) {
+        User found = userRepository.findByUserName(name);
+        //如果数据库中连用户名都没有，那就注册一个
+        if (found == null) {
+            userRepository.save(new User(name, password));
+        }
+        //存在用户名，那就检查密码
+        else {
+            if (!password.equals(found.getPassword())) {
                 throw new Exception("密码错误");
             }
         }
-        return user;
+        return found;
     }
 
 }
