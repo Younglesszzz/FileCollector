@@ -1,8 +1,10 @@
 package com.example.filecollector.web;
 
+import com.example.filecollector.dao.FileRepository;
 import com.example.filecollector.po.User;
 import com.example.filecollector.service.FileService;
 import com.example.filecollector.util.FileUtils;
+import com.example.filecollector.util.PageUtil;
 import com.example.filecollector.vo.Result;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/files")
@@ -31,6 +35,9 @@ public class FileController {
 
     @Value("${file.download-path}")
     private String downloadFilePath;
+
+    @Autowired
+    private FileRepository fileRepository;
 
     @Autowired
     private FileService fileService;
@@ -54,6 +61,22 @@ public class FileController {
 
         hashMap.put("page", filePage);
         return new Result(hashMap, "文件查询成功");
+    }
+
+    @GetMapping("/show")
+    @ResponseBody
+    public Result show(HttpServletRequest request) throws JsonProcessingException {
+        //获取User
+        Object userObject = request.getSession().getAttribute("user");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userString = objectMapper.writeValueAsString(userObject);
+        User user = objectMapper.readValue(userString, User.class);
+
+        //这里可能有NullpointerException
+        HashMap<String, Object> hashMap = new HashMap<>(1);
+        Page<com.example.filecollector.po.File> filePage = fileRepository.findAllByUploadUserId(user.getId(), PageRequest.of(0, 10));
+        hashMap.put("userFiles", filePage);
+        return new Result(hashMap, "用户个人文件");
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.example.filecollector.po;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class User {
 
     private String password;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "uploadUser")
     private List<File> files = new ArrayList<>();
 
