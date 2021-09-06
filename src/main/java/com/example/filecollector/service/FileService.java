@@ -2,8 +2,10 @@ package com.example.filecollector.service;
 
 import com.example.filecollector.dao.FileRepository;
 import com.example.filecollector.dao.FileTagRepository;
+import com.example.filecollector.dao.UserRepository;
 import com.example.filecollector.po.File;
 import com.example.filecollector.po.FileTag;
+import com.example.filecollector.po.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,15 +20,19 @@ public class FileService {
     private FileRepository fileRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private FileTagRepository fileTagRepository;
 
 
 
     @Transactional
-    public File saveFile(File file, String tagName, String path) {
+    public File saveFile(File file, String tagName, String path, Long userId) {
         //标签是否存在？
         FileTag found = fileTagRepository.findByName(tagName);
 
+        Optional<User> optionalUser = userRepository.findById(userId);
         //如果用户输入的tagName不存在，那么创建一个新的tag
         if (found == null) {
             found = new FileTag(tagName);
@@ -35,7 +41,7 @@ public class FileService {
         file.getFileTags().add(found);
         //录入file的path
         file.setPath(path);
-
+        file.setUploadUser(optionalUser.orElse(null));
         return fileRepository.save(file);
     }
 

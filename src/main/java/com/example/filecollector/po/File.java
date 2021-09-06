@@ -34,6 +34,8 @@ public class File {
     @ManyToMany
     private List<FileTag> fileTags = new ArrayList<>();
 
+    @ManyToOne
+    private User uploadUser;
 
     public File() {
     }
@@ -99,5 +101,11 @@ public class File {
         this.fileTags = fileTags;
     }
 
+    public User getUploadUser() {
+        return uploadUser;
+    }
 
+    public void setUploadUser(User uploadUser) {
+        this.uploadUser = uploadUser;
+    }
 }

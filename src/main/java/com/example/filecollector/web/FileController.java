@@ -1,9 +1,11 @@
 package com.example.filecollector.web;
 
-import com.example.filecollector.dao.FileRepository;
+import com.example.filecollector.po.User;
 import com.example.filecollector.service.FileService;
 import com.example.filecollector.util.FileUtils;
 import com.example.filecollector.vo.Result;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 
 @Controller
 @RequestMapping("/files")
@@ -46,7 +47,7 @@ public class FileController {
      */
     @GetMapping(value = "/find")
     @ResponseBody
-    public Result find(@RequestParam("query") String query) {
+    public Result find(@RequestParam("query") String query, HttpServletRequest request) throws JsonProcessingException {
         Page<com.example.filecollector.po.File> filePage = fileService.findFile(query);
 
         HashMap<String, Object> hashMap = new HashMap<>(2);
@@ -73,8 +74,15 @@ public class FileController {
         File dest = FileUtils.buildDest(uploadFilePath + uploadFile.getOriginalFilename());
         uploadFile.transferTo(dest);
 
+        //获取userId
+        Object userObject = request.getSession().getAttribute("user");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userString = objectMapper.writeValueAsString(userObject);
+        User user = objectMapper.readValue(userString, User.class);
+
+
         //调用service 服务，储存到数据库，进行上传相关逻辑的处理
-        fileService.saveFile(newFile, fileTagName, dest.getAbsolutePath());
+        fileService.saveFile(newFile, fileTagName, dest.getAbsolutePath(), user.getId());
 
         Map<String, String> hashMap = new HashMap<>(16);
         hashMap.put("contentType", uploadFile.getContentType());

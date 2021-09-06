@@ -1,9 +1,8 @@
 package com.example.filecollector.po;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "t_user")
@@ -16,6 +15,9 @@ public class User {
     private String userName;
 
     private String password;
+
+    @OneToMany(mappedBy = "uploadUser")
+    private List<File> files = new ArrayList<>();
 
     public User(String userName, String password) {
         this.userName = userName;
@@ -48,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 }
