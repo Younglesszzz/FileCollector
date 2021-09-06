@@ -8,25 +8,29 @@ import com.example.filecollector.vo.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 
 
-@RestController
+@Controller
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
     //将Service注入Web层
     @Autowired
     private UserService userService;
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
-    @PostMapping("/login")
-    public Result login(@RequestParam String userName,@RequestParam String password, HttpServletRequest request) {
+    @PostMapping("/verify")
+    @ResponseBody
+    public Result verify(@RequestParam String userName,@RequestParam String password, HttpServletRequest request) {
         User user = null;
         try {
             user = userService.saveUser(userName, password);
