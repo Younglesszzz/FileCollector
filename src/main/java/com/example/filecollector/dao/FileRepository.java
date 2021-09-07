@@ -14,7 +14,7 @@ public interface FileRepository extends JpaRepository<File, Long> {
 
     Page<File> findAllByUploadUserId(Long userId, Pageable pageable);
 
-    Page<File> findAllByFileTags_id(Long id, Pageable pageable);
+    Page<File> findAllByFileTags_idAndUploadUser_id(Long FileTagId, Long UserId, Pageable pageable);
 
     File findByName(String name);
 }

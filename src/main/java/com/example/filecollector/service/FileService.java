@@ -46,9 +46,9 @@ public class FileService {
     }
 
 
-    public Page<File> getAllByTag(String tagName) {
+    public Page<File> getAllByTag(String tagName, Long userId) {
         FileTag fileTag = fileTagRepository.findByName(tagName);
-        Page<File> files = fileRepository.findAllByFileTags_id(fileTag.getId(), PageRequest.of(0, 10));
+        Page<File> files = fileRepository.findAllByFileTags_idAndUploadUser_id(fileTag.getId(), userId, PageRequest.of(0, 10));
         return files;
     }
 

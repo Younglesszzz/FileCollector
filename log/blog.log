@@ -1346,3 +1346,54 @@ Caused by: com.mysql.cj.exceptions.UnableToConnectException: Public Key Retrieva
 2021-09-07 16:08:53.323  INFO 16492 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2021-09-07 16:08:53.324  INFO 16492 --- [http-nio-8080-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
 2021-09-07 16:08:53.330  WARN 16492 --- [http-nio-8080-exec-2] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'GET' not supported]
+2021-09-07 20:21:01.670  INFO 12076 --- [restartedMain] c.e.f.FileCollectorApplication           : Starting FileCollectorApplication using Java 1.8.0_241 on GLov-LAPTOP with PID 12076 (C:\Users\Young\Desktop\FileCollector\target\classes started by Young in C:\Users\Young\Desktop\FileCollector)
+2021-09-07 20:21:01.670  INFO 12076 --- [restartedMain] c.e.f.FileCollectorApplication           : No active profile set, falling back to default profiles: default
+2021-09-07 20:21:01.734  INFO 12076 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-07 20:21:01.734  INFO 12076 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-07 20:21:02.590  INFO 12076 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-07 20:21:02.668  INFO 12076 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 70 ms. Found 3 JPA repository interfaces.
+2021-09-07 20:21:03.350  INFO 12076 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-09-07 20:21:03.366  INFO 12076 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-09-07 20:21:03.366  INFO 12076 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2021-09-07 20:21:03.429  INFO 12076 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-09-07 20:21:03.429  INFO 12076 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1695 ms
+2021-09-07 20:21:03.554  INFO 12076 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-07 20:21:03.664  INFO 12076 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-09-07 20:21:03.787  INFO 12076 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-07 20:21:03.881  INFO 12076 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-09-07 20:21:04.039  INFO 12076 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-09-07 20:21:04.054  INFO 12076 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-09-07 20:21:04.793  INFO 12076 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-07 20:21:04.793  INFO 12076 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-07 20:21:05.472  INFO 12076 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2021-09-07 20:21:05.598  INFO 12076 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-09-07 20:21:05.630  INFO 12076 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-09-07 20:21:05.645  INFO 12076 --- [restartedMain] c.e.f.FileCollectorApplication           : Started FileCollectorApplication in 4.855 seconds (JVM running for 6.153)
+2021-09-07 20:25:57.169  INFO 6316 --- [restartedMain] c.e.f.FileCollectorApplication           : Starting FileCollectorApplication using Java 1.8.0_241 on GLov-LAPTOP with PID 6316 (C:\Users\Young\Desktop\FileCollector\target\classes started by Young in C:\Users\Young\Desktop\FileCollector)
+2021-09-07 20:25:57.169  INFO 6316 --- [restartedMain] c.e.f.FileCollectorApplication           : No active profile set, falling back to default profiles: default
+2021-09-07 20:25:57.260  INFO 6316 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2021-09-07 20:25:57.260  INFO 6316 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2021-09-07 20:25:58.369  INFO 6316 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2021-09-07 20:25:58.461  INFO 6316 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 85 ms. Found 3 JPA repository interfaces.
+2021-09-07 20:25:59.438  INFO 6316 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2021-09-07 20:25:59.454  INFO 6316 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-09-07 20:25:59.454  INFO 6316 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.52]
+2021-09-07 20:25:59.592  INFO 6316 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-09-07 20:25:59.592  INFO 6316 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2332 ms
+2021-09-07 20:25:59.781  INFO 6316 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2021-09-07 20:25:59.916  INFO 6316 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.4.32.Final
+2021-09-07 20:26:00.140  INFO 6316 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2021-09-07 20:26:00.285  INFO 6316 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2021-09-07 20:26:00.429  INFO 6316 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2021-09-07 20:26:00.446  INFO 6316 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2021-09-07 20:26:01.291  INFO 6316 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2021-09-07 20:26:01.307  INFO 6316 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2021-09-07 20:26:02.120  INFO 6316 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: class path resource [static/index.html]
+2021-09-07 20:26:02.320  INFO 6316 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2021-09-07 20:26:02.384  INFO 6316 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2021-09-07 20:26:02.400  INFO 6316 --- [restartedMain] c.e.f.FileCollectorApplication           : Started FileCollectorApplication in 6.002 seconds (JVM running for 7.695)
+2021-09-07 20:26:23.130  INFO 6316 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-09-07 20:26:23.138  INFO 6316 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-09-07 20:26:23.138  INFO 6316 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2021-09-07 20:26:23.244  INFO 6316 --- [http-nio-8080-exec-1] c.e.filecollector.web.LoginController    : 密码不正确，UserService抛出异常
+2021-09-07 20:28:09.434  WARN 6316 --- [http-nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'tagName' for method parameter type String is not present]

@@ -79,10 +79,10 @@ public class FileController {
         return new Result(hashMap, "用户个人文件");
     }
 
-    @GetMapping("/showByTag")
+    @GetMapping("/showByTag/{userId}")
     @ResponseBody
-    public Result showByTag(@RequestParam("tagName") String tagName) {
-        Page<com.example.filecollector.po.File> files = fileService.getAllByTag(tagName);
+    public Result showByTag(@RequestParam("tagName") String tagName, @PathVariable Long userId) {
+        Page<com.example.filecollector.po.File> files = fileService.getAllByTag(tagName, userId);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("files", files);
         return new Result(hashMap, "标签下文件");
