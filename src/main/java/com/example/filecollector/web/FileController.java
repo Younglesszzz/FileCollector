@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
@@ -196,6 +197,16 @@ public class FileController {
             os.flush();
         }
         return new Result(hashMap, "下载成功");
+    }
+
+    @PostMapping("/{id}/delete")
+    @ResponseBody
+    public Result deleteFile(@PathVariable Long id) {
+        Optional<com.example.filecollector.po.File> optionalFile = fileRepository.findById(id);
+        if (!optionalFile.isPresent())
+            return new Result(null, "文件不存在");
+        fileRepository.delete(optionalFile.get());
+        return new Result(null, "删除成功");
     }
 
     private void logFileInfo(MultipartFile file, String uploadFilePath) {
