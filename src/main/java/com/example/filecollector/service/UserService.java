@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -30,6 +31,16 @@ public class UserService {
             }
         }
         return found;
+    }
+
+    @Transactional
+    public User update(User user) {
+        Optional<User> oldUser = userRepository.findById(user.getId());
+        if (oldUser.isPresent()) {
+            oldUser.get().setEmail(user.getEmail());
+            oldUser.get().setUserName(user.getUserName());
+        }
+        return oldUser.orElse(null);
     }
 
 }

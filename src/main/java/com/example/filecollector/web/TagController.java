@@ -6,11 +6,13 @@ import com.example.filecollector.vo.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 
 @RestController
 public class TagController {
@@ -29,6 +31,13 @@ public class TagController {
     public Result updateTag(@RequestBody FileTag fileTag) {
         fileTagService.updateTag(fileTag);
         return new Result(null, "更新完毕");
+    }
+
+    @GetMapping("/getAllTags")
+    public Result getAllTags() {
+        HashMap<String, Object> hashMap = new HashMap();
+        hashMap.put("tags", fileTagService.getAllTags());
+        return new Result(hashMap, "所有标签");
     }
 
 }

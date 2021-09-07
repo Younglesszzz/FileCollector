@@ -18,6 +18,8 @@ public class User {
 
     private String password;
 
+    private String email;
+
     @JsonIgnore
     @OneToMany(mappedBy = "uploadUser")
     private List<File> files = new ArrayList<>();
@@ -61,5 +63,13 @@ public class User {
 
     public void setFiles(List<File> files) {
         this.files = files;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

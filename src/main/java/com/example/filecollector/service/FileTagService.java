@@ -4,6 +4,8 @@ import com.example.filecollector.dao.FileTagRepository;
 import com.example.filecollector.po.FileTag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +23,10 @@ public class FileTagService {
         else {
             throw new Exception("存在同名标签");
         }
+    }
+
+    public Page<FileTag> getAllTags() {
+        return fileTagRepository.findAll(PageRequest.of(0, 10));
     }
 
     public FileTag getFileTag(Long id) {
