@@ -13,6 +13,7 @@ public class FileTagService {
     @Autowired
     private FileTagRepository fileTagRepository;
 
+
     public FileTag saveTag(FileTag fileTag) throws Exception {
         FileTag found = fileTagRepository.findByName(fileTag.getName());
         //没有同名
@@ -22,6 +23,7 @@ public class FileTagService {
             throw new Exception("存在同名标签");
         }
     }
+
 
     public FileTag getFileTag(Long id) {
         Optional<FileTag> optionalFileTag = fileTagRepository.findById(id);

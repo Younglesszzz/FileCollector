@@ -4,7 +4,6 @@ import com.example.filecollector.dao.FileRepository;
 import com.example.filecollector.po.User;
 import com.example.filecollector.service.FileService;
 import com.example.filecollector.util.FileUtils;
-import com.example.filecollector.util.PageUtil;
 import com.example.filecollector.vo.Result;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/files")
@@ -112,6 +110,38 @@ public class FileController {
         hashMap.put("fileName", uploadFile.getOriginalFilename());
         //这么写有缺陷，会丢失精度，应该四舍五入使用Decimal类（小问题，待更改-------------
         hashMap.put("fileSize", String.valueOf(uploadFile.getSize() / 1024) + "KB");//单位是B,大写B代表byte，小写b代表bit
+
+        Result res = new Result(hashMap, "上传成功");
+        return res;
+    }
+
+
+    @PostMapping(value = "/uploadAll")
+    @ResponseBody
+    public Result uploadAll(@RequestParam("uploadFiles") MultipartFile[] uploadFiles, @RequestParam("fileTagName") String fileTagName, HttpServletRequest request) throws IOException {
+
+        //获取userId
+        Object userObject = request.getSession().getAttribute("user");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userString = objectMapper.writeValueAsString(userObject);
+        User user = objectMapper.readValue(userString, User.class);
+        Map<String, String> hashMap = new HashMap<>(16);
+        //多媒体文件转为po file
+        for (int i = 0; i < uploadFiles.length; i++) {
+            com.example.filecollector.po.File newFile = FileUtils.convertFile(uploadFiles[i]);
+            //判断文件所在目录是否存在，不存在就创建对应的目录
+            File dest = FileUtils.buildDest(uploadFilePath + uploadFiles[i].getOriginalFilename());
+            uploadFiles[i].transferTo(dest);
+
+
+            //调用service 服务，储存到数据库，进行上传相关逻辑的处理
+            fileService.saveFile(newFile, fileTagName, dest.getAbsolutePath(), user.getId());
+
+            //存入hashmap
+            hashMap.put("contentType", uploadFiles[i].getContentType());
+            hashMap.put("fileName", uploadFiles[i].getOriginalFilename());
+            hashMap.put("fileSize", String.valueOf(uploadFiles[i].getSize() / 1024) + "KB");//单位是B,大写B代表byte，小写b代表bit
+        }
 
         Result res = new Result(hashMap, "上传成功");
         return res;
