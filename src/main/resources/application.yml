@@ -39,7 +39,7 @@ spring:
 #      add-mappings: false
 
 # 改成你本地的文件上传路径
-file.upload_path: F://uploadTest
+file.upload_path: F://uploadTest//
 file.download_path: F://uploadTest//
 
 # 项目运行端口

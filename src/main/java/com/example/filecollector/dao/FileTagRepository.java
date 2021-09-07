@@ -2,6 +2,7 @@ package com.example.filecollector.dao;
 
 import com.example.filecollector.po.File;
 import com.example.filecollector.po.FileTag;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

@@ -23,6 +23,8 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
+
 @Controller
 @RequestMapping("/files")
 public class FileController {
@@ -75,6 +77,15 @@ public class FileController {
         Page<com.example.filecollector.po.File> filePage = fileRepository.findAllByUploadUserId(user.getId(), PageRequest.of(0, 10));
         hashMap.put("userFiles", filePage);
         return new Result(hashMap, "用户个人文件");
+    }
+
+    @GetMapping("/showByTag")
+    @ResponseBody
+    public Result showByTag(@RequestParam("tagName") String tagName) {
+        Page<com.example.filecollector.po.File> files = fileService.getAllByTag(tagName);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("files", files);
+        return new Result(hashMap, "标签下文件");
     }
 
     /**
@@ -138,9 +149,9 @@ public class FileController {
             fileService.saveFile(newFile, fileTagName, dest.getAbsolutePath(), user.getId());
 
             //存入hashmap
-            hashMap.put("contentType", uploadFiles[i].getContentType());
-            hashMap.put("fileName", uploadFiles[i].getOriginalFilename());
-            hashMap.put("fileSize", String.valueOf(uploadFiles[i].getSize() / 1024) + "KB");//单位是B,大写B代表byte，小写b代表bit
+            hashMap.put("contentType" + i, uploadFiles[i].getContentType());
+            hashMap.put("fileName" + i, uploadFiles[i].getOriginalFilename());
+            hashMap.put("fileSize" + i, String.valueOf(uploadFiles[i].getSize() / 1024) + "KB");//单位是B,大写B代表byte，小写b代表bit
         }
 
         Result res = new Result(hashMap, "上传成功");
@@ -157,7 +168,9 @@ public class FileController {
     @ResponseBody
     public Result fileDownload(@PathVariable("id") Long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
         String fileName = fileService.findById(id).getName();
-        File file = new File(downloadFilePath + fileName);//如何解决中文问题
+        logger.info(fileName);
+
+        File file = new File(downloadFilePath + toUtf8(fileName));//如何解决中文问题
         if (!file.exists()) {
             throw new Exception("下载文件本地不存在");
         }
@@ -191,4 +204,9 @@ public class FileController {
         logger.info("文件类型" + file.getContentType());
         logger.info("文件地址: " + (uploadFilePath + file.getOriginalFilename()));
     }
+
+    public static String toUtf8(String str) throws UnsupportedEncodingException {
+        return new String(str.getBytes("UTF-8"),"UTF-8");
+    }
+
 }

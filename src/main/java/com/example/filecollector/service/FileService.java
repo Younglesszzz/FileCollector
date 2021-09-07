@@ -46,6 +46,12 @@ public class FileService {
     }
 
 
+    public Page<File> getAllByTag(String tagName) {
+        FileTag fileTag = fileTagRepository.findByName(tagName);
+        Page<File> files = fileRepository.findAllByFileTags_id(fileTag.getId(), PageRequest.of(0, 10));
+        return files;
+    }
+
     /**
      *
      * @param id 文件id
