@@ -53,10 +53,11 @@ public class FileController {
      * @param query 用户想要查询的文件关键词
      * @return 查询结果
      */
-    @GetMapping(value = "/find")
+    @GetMapping(value = "/find/{userId}")
     @ResponseBody
-    public Result find(@RequestParam("query") String query, HttpServletRequest request) throws JsonProcessingException {
-        Page<com.example.filecollector.po.File> filePage = fileService.findFile(query);
+    public Result find(@RequestParam("query") String query, HttpServletRequest request,
+                       @PathVariable Long userId) throws JsonProcessingException {
+        Page<com.example.filecollector.po.File> filePage = fileService.findFile(query, userId);
 
         HashMap<String, Object> hashMap = new HashMap<>(2);
 
@@ -78,6 +79,12 @@ public class FileController {
         Page<com.example.filecollector.po.File> filePage = fileRepository.findAllByUploadUserId(user.getId(), PageRequest.of(0, 10));
         hashMap.put("userFiles", filePage);
         return new Result(hashMap, "用户个人文件");
+    }
+
+    @GetMapping("/showByQuery/{userId}")
+    @ResponseBody
+    public Result showByQuery(@RequestParam String query) {
+        return null;
     }
 
     @GetMapping("/showByTag/{userId}")

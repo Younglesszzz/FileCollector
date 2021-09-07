@@ -72,8 +72,8 @@ public class FileService {
     }
 
 
-    public Page<File> findFile(String query) {
-        return fileRepository.findByQuery(query, PageRequest.of(0, 10));
+    public Page<File> findFile(String query, Long userId) {
+        return fileRepository.findByQueryAndUploadUser_Id(query, userId, PageRequest.of(0, 10));
     }
 
     public File findById(Long id) {
