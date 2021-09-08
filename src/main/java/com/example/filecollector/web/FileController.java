@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,9 +44,14 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @GetMapping
-    public String index() {
-        return "index";
+
+    @GetMapping(value = "/info/{userId}")
+    @ResponseBody
+    public Result info(@PathVariable Long userId) {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("files", fileRepository.
+                findAllByUploadUser_IdOrderByFileTags_IdAsc(userId, PageRequest.of(0, 10)));
+        return new Result(hashMap, "用户所有文件");
     }
 
     /**
@@ -80,6 +86,7 @@ public class FileController {
         hashMap.put("userFiles", filePage);
         return new Result(hashMap, "用户个人文件");
     }
+
 
     @GetMapping("/showByQuery/{userId}")
     @ResponseBody

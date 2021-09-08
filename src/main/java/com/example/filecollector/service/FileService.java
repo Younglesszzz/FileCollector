@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Iterator;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,7 @@ public class FileService {
         //如果用户输入的tagName不存在，那么创建一个新的tag
         if (found == null) {
             found = new FileTag(tagName);
+            found.setCreator(optionalUser.orElse(null));
             fileTagRepository.save(found);
         }
         file.getFileTags().add(found);
@@ -50,8 +52,11 @@ public class FileService {
     public Page<File> getAllByTag(String tagName, Long userId) {
         FileTag fileTag = fileTagRepository.findByName(tagName);
         Page<File> files = fileRepository.findAllByFileTags_idAndUploadUser_id(fileTag.getId(), userId, PageRequest.of(0, 10));
-        for (File file : files) {
+        Iterator<File> iterator = files.iterator();
+        while (iterator.hasNext()) {
+            File file = iterator.next();
             file.setViewCount(file.getViewCount() + 1);
+//            fileRepository.save(file);
         }
         return files;
     }
@@ -73,7 +78,14 @@ public class FileService {
 
 
     public Page<File> findFile(String query, Long userId) {
-        return fileRepository.findByQueryAndUploadUser_Id(query, userId, PageRequest.of(0, 10));
+        Page<File> files = fileRepository.findByQueryAndUploadUser_Id(query, userId, PageRequest.of(0, 10));
+        Iterator<File> iterator = files.iterator();
+        while (iterator.hasNext()) {
+            File file = iterator.next();
+            file.setViewCount(file.getViewCount() + 1);
+            fileRepository.save(file);
+        }
+        return files;
     }
 
     public File findById(Long id) {

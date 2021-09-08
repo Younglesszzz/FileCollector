@@ -16,6 +16,8 @@ public interface FileRepository extends JpaRepository<File, Long> {
 
     Page<File> findAllByFileTags_idAndUploadUser_id(Long fileTagId, Long userId, Pageable pageable);
 
+    Page<File> findAllByUploadUser_IdOrderByFileTags_IdAsc(Long userId, Pageable pageable);
+
     @Query(nativeQuery = true, value = "select * from t_file where name = ?1 and upload_user_id = ?2 limit 1")
     File findByNameAndUploadUser_Id(String fileName, Long userId);
 

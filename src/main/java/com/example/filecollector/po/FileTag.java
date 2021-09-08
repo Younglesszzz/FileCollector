@@ -23,12 +23,16 @@ public class FileTag {
     @NotBlank(message = "请输入标签名称")
     private String name;
 
+
     /**
      * 标签下的文件
      */
     @JsonIgnore
     @ManyToMany(mappedBy = "fileTags")
     private List<File> files = new ArrayList<>();//不进行级联操作,mappedBy fileTags，则需要通过File.fileTags添加标签，而不是通过Tag.files添加标签
+
+    @ManyToOne
+    private User creator;
 
     public FileTag(String name) {
         this.name = name;
@@ -60,5 +64,13 @@ public class FileTag {
 
     public void setFiles(List<File> files) {
         this.files = files;
+    }
+
+    public User getCreator() {
+        return creator;
+    }
+
+    public void setCreator(User creator) {
+        this.creator = creator;
     }
 }

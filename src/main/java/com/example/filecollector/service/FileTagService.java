@@ -25,8 +25,8 @@ public class FileTagService {
         }
     }
 
-    public Page<FileTag> getAllTags() {
-        return fileTagRepository.findAll(PageRequest.of(0, 10));
+    public Page<FileTag> getAllTags(Long userId) {
+        return fileTagRepository.findAllByCreator_Id(userId, PageRequest.of(0, 10));
     }
 
     public FileTag getFileTag(Long id) {

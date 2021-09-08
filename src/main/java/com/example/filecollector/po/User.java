@@ -24,6 +24,10 @@ public class User {
     @OneToMany(mappedBy = "uploadUser")
     private List<File> files = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator")
+    private List<FileTag> fileTags = new ArrayList<>();
+
     public User(String userName, String password) {
         this.userName = userName;
         this.password = password;
