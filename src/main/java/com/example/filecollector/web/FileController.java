@@ -168,23 +168,22 @@ public class FileController {
 
     /**
      *
-     * @param id 文件id
+     * @param fileName 文件id
      * @param response 响应，下载真正的文件
      * @param request  请求，获取UserId
      */
-    @GetMapping("/{id}/download")
+    @GetMapping("/download/{userId}")
     @ResponseBody
-    public Result fileDownload(@PathVariable("id") Long id, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        String fileName = fileService.findById(id).getName();
+    public Result fileDownload(@RequestParam("fileName") String fileName, @PathVariable("userId") Long userId, HttpServletResponse response, HttpServletRequest request) throws Exception {
         logger.info(fileName);
 
-        File file = new File(downloadFilePath + toUtf8(fileName));//如何解决中文问题
+        File file = new File(downloadFilePath + fileName);//如何解决中文问题
         if (!file.exists()) {
             throw new Exception("下载文件本地不存在");
         }
 
         //处理数据库中的部分逻辑
-        fileService.downloadFile(id);
+        fileService.downloadFile(fileName, userId);
 
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("name", file.getName());
@@ -206,13 +205,14 @@ public class FileController {
         return new Result(hashMap, "下载成功");
     }
 
-    @PostMapping("/{id}/delete")
+
+    @PostMapping("/delete/{userId}")
     @ResponseBody
-    public Result deleteFile(@PathVariable Long id) {
-        Optional<com.example.filecollector.po.File> optionalFile = fileRepository.findById(id);
-        if (!optionalFile.isPresent())
+    public Result deleteFile(@RequestParam String fileName, @PathVariable Long userId) {
+        com.example.filecollector.po.File file = fileRepository.findByNameAndUploadUser_Id(fileName, userId);
+        if (file == null)
             return new Result(null, "文件不存在");
-        fileRepository.delete(optionalFile.get());
+        fileRepository.delete(file);
         return new Result(null, "删除成功");
     }
 

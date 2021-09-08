@@ -58,16 +58,16 @@ public class FileService {
 
     /**
      *
-     * @param id 文件id
+     * @param fileName 文件id
      */
     @Transactional
-    public void downloadFile(Long id) throws Exception {
-        Optional<File> file = fileRepository.findById(id);
-        if (!file.isPresent()) {
+    public void downloadFile(String fileName, Long userId) throws Exception {
+        File file = fileRepository.findByNameAndUploadUser_Id(fileName, userId);
+        if (file == null) {
             throw new Exception("下载的文件资源不存在");
         }
         //文件累计下载次数+1
-        file.get().setDownloadCount(file.get().getDownloadCount() + 1);
+        file.setDownloadCount(file.getDownloadCount() + 1);
 
     }
 
