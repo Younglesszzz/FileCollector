@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-
-import static org.apache.logging.log4j.message.MapMessage.MapFormat.JSON;
 
 @Controller
 @RequestMapping("/files")
@@ -108,9 +104,12 @@ public class FileController {
      * @param uploadFile 上传文件
      * @param fileTagName 前端传入对应标签名字,用户输入，没有就创建，有就直接用
      */
-    @PostMapping(value = "/upload")
+    @PostMapping(value = "/upload/{userId}")
     @ResponseBody
-    public Result upload(@RequestParam("uploadFile") MultipartFile uploadFile, @RequestParam("fileTagName") String fileTagName, HttpServletRequest request) throws IOException {
+    public Result upload(@RequestParam("uploadFile") MultipartFile uploadFile,
+                         @RequestParam("fileTagName") String fileTagName,
+                         @PathVariable("userId") Long userId,
+                         HttpServletRequest request) throws IOException {
         //打印上传文件信息
         logFileInfo(uploadFile, uploadFilePath);
 
@@ -121,15 +120,10 @@ public class FileController {
         File dest = FileUtils.buildDest(uploadFilePath + uploadFile.getOriginalFilename());
         uploadFile.transferTo(dest);
 
-        //获取userId
-        Object userObject = request.getSession().getAttribute("user");
-        ObjectMapper objectMapper = new ObjectMapper();
-        String userString = objectMapper.writeValueAsString(userObject);
-        User user = objectMapper.readValue(userString, User.class);
 
 
         //调用service 服务，储存到数据库，进行上传相关逻辑的处理
-        fileService.saveFile(newFile, fileTagName, dest.getAbsolutePath(), user.getId());
+        fileService.saveFile(newFile, fileTagName, dest.getAbsolutePath(), userId);
 
         Map<String, String> hashMap = new HashMap<>(16);
         hashMap.put("contentType", uploadFile.getContentType());
@@ -183,8 +177,11 @@ public class FileController {
     @ResponseBody
     public Result fileDownload(@RequestParam("fileName") String fileName, @PathVariable("userId") Long userId, HttpServletResponse response, HttpServletRequest request) throws Exception {
         logger.info(fileName);
+        com.example.filecollector.po.File found = fileRepository.findByNameAndUploadUser_Id(fileName, userId);
 
-        File file = new File(downloadFilePath + fileName);//如何解决中文问题
+        logger.info(found.toString());
+        logger.info(found.getPath());
+        File file = new File(found.getPath());//如何解决中文问题
         if (!file.exists()) {
             throw new Exception("下载文件本地不存在");
         }
@@ -212,6 +209,16 @@ public class FileController {
         return new Result(hashMap, "下载成功");
     }
 
+    @GetMapping("/updateFile/{userId}")
+    @ResponseBody
+    public Result updateFile(@RequestParam("oldName") String oldName, @RequestParam("newName") String newName,@PathVariable("userId") Long userId) {
+        com.example.filecollector.po.File found = fileRepository.findByNameAndUploadUser_Id(oldName, userId);
+        if (found == null)
+            return new Result(null, "修改失败");
+        found.setName(newName);
+        fileRepository.save(found);
+        return new Result(null, "修改成功");
+    }
 
     @PostMapping("/delete/{userId}")
     @ResponseBody
